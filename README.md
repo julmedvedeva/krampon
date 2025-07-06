@@ -1,39 +1,49 @@
 # krampon
 
-This template should help get you started developing with Vue 3 in Vite.
+## Getting Started (First-Time Setup)
 
-## Recommended IDE Setup
+### 1. Prerequisites
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+* **Node.js ≥ 22** (check with `node -v`)
+* **npm ≥ 10** (or Yarn / pnpm – examples use npm)
+* **Git**
 
-## Type Support for `.vue` Imports in TS
+### 2. Clone the Repository
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```bash
+git clone https://github.com/<your-org>/<repo>.git   # replace URL
+cd <repo>
+```
 
-## Customize configuration
+### 3. Install Dependencies
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 4. Run in Development Mode
 
-```sh
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Vite will start a dev server (default: http://localhost:5173) with hot-reload.
 
-```sh
-npm run build
+### 5. Build for Production
+
+```bash
+npm run build        # outputs to dist/
+npm run preview      # optional: serve the built files locally (port 4173)
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### 6. Deploy
 
-```sh
-npm run lint
+Upload the contents of the `dist/` folder to any static hosting/CDN (Netlify, Vercel, GitHub Pages, nginx, etc.).
+
+### 7. Lint & Format
+
+```bash
+npm run lint         # ESLint
+# npm run format     # add if you create a prettier script
 ```
+

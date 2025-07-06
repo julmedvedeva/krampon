@@ -20,7 +20,7 @@ export class ApiClient {
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Token ${token}`, 
+        // Authorization: `Token ${token}`,
       },
 
       onRequestError({ error }) {
@@ -38,10 +38,13 @@ export class ApiClient {
       const response = await this.fetch<T>(endpoint, { method: 'GET' });
       return {
         data: response,
-        status: 200, 
+        status: 200,
       };
     } catch (err: unknown) {
-      const errorObj = err as { response?: { status?: number }; message?: string };
+      const errorObj = err as {
+        response?: { status?: number };
+        message?: string;
+      };
       const apiError: ApiError = {
         status: errorObj.response?.status ?? 500,
         message: errorObj.message ?? 'Failed to fetch data',
@@ -61,7 +64,10 @@ export class ApiClient {
         status: 200,
       };
     } catch (err: unknown) {
-      const errorObj = err as { response?: { status?: number }; message?: string };
+      const errorObj = err as {
+        response?: { status?: number };
+        message?: string;
+      };
       const apiError: ApiError = {
         status: errorObj.response?.status ?? 500,
         message: errorObj.message ?? 'Failed to post data',

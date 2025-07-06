@@ -93,7 +93,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useProductsStore, Product } from '@/stores/product';
+import { useProductsStore, type Product } from '@/stores/product';
 
 const productStore = useProductsStore();
 const { cartItems, cartCount } = storeToRefs(productStore);

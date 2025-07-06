@@ -65,20 +65,15 @@ export const useProductsStore = defineStore('product', () => {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const apiClient = new ApiClient(
-    'http://46.8.229.19/api/v1',
-    'e642a126cd7b584dee298269171ae73a121831ce'
-  );
+  const apiClient = new ApiClient('http://46.8.229.19/api/v1');
 
   const cartCount = computed(() =>
     cartItems.value.reduce((sum, item) => sum + item.quantity, 0)
   );
 
-
   function isProductInCart(productId: number): boolean {
     return cartItems.value.some(item => item.product.id === productId);
   }
-
 
   function getCartItemQuantity(productId: number): number {
     const cartItem = cartItems.value.find(
@@ -130,7 +125,6 @@ export const useProductsStore = defineStore('product', () => {
         `Количество "${product.name}" увеличено до ${cartItems.value[cartItemIndex].quantity}`
       );
     } else {
-
       cartItems.value.push({ product, quantity: 1 });
       console.log(`"${product.name}" добавлен в корзину!`);
     }
@@ -160,11 +154,9 @@ export const useProductsStore = defineStore('product', () => {
       const newQuantity = cartItems.value[cartItemIndex].quantity - 1;
 
       if (newQuantity <= 0) {
-
         cartItems.value.splice(cartItemIndex, 1);
         console.log(`"${product.name}" удален из корзины.`);
       } else {
-        
         cartItems.value[cartItemIndex].quantity = newQuantity;
         console.log(`Количество "${product.name}" уменьшено до ${newQuantity}`);
       }
