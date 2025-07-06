@@ -1,13 +1,9 @@
 <template>
-<button>{{label}}</button>
+  <button>{{ label }}</button>
 </template>
 <script setup lang="ts">
-
 defineProps<{
   label: string;
-}>()
-
+}>();
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
