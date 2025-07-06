@@ -44,6 +44,5 @@ Upload the contents of the `dist/` folder to any static hosting/CDN (Netlify, Ve
 
 ```bash
 npm run lint         # ESLint
-# npm run format     # add if you create a prettier script
 ```
 
