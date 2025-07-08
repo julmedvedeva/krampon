@@ -1,0 +1,82 @@
+name: DEV Krampon Frontend Workflow
+
+on:
+  push:
+    branches: [staging]
+  pull_request:
+    branches: [staging]
+
+jobs:
+  build_frontend_and_push_to_container_registry:
+    if: github.event_name == 'push'
+    name: Push frontend Docker image to Selectel
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Login to Selectel CR
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ secrets.REGISTRY_URL_SELECTEL }}
+        username: ${{ secrets.SELECTEL_USERNAME }}
+        password: ${{ secrets.SELECTEL_PASSWORD }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push frontend
+      run: |
+        docker build -t krampon_web_client .
+        docker tag krampon_web_client ${{ secrets.REGISTRY_URL_SELECTEL }}/${{ secrets.REGISTRY_NAME_SELECTEL }}/krampon_web_client:dev
+        docker push ${{ secrets.REGISTRY_URL_SELECTEL }}/${{ secrets.REGISTRY_NAME_SELECTEL }}/krampon_web_client:dev
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs:
+      - build_frontend_and_push_to_container_registry
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          cd /home/admin/krampon
+          sudo docker compose -f docker-compose.dev.yml pull
+          sudo docker compose -f docker-compose.dev.yml down
+          sudo docker volume rm krampon_web-client-static
+          sudo docker compose -f docker-compose.dev.yml up -d
+          . setup_dev.sh
+
+  send_message:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+    - name: Send message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.workflow }} успешно выполнен!
+
+          🚀 Dev обновлен!
+
+          Описание:
+          ${{ github.event.head_commit.message }}
+
+          Swagger: http://46.8.229.19/api/schema/swagger-ui/
+
+          Админка: http://46.8.229.19/admin/
+
+          Клиент: http://46.8.229.19/
