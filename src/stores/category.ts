@@ -12,7 +12,7 @@ export const useCategoryStore = defineStore('category', () => {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const apiClient = new ApiClient('http://46.8.229.19/api/v1');
+  const apiClient = new ApiClient('/api/v1');
 
   async function fetchCategories() {
     try {

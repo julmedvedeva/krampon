@@ -21,7 +21,7 @@
             class="cart-item flex items-center gap-4 border-b border-gray-200 py-4 last:border-b-0"
           >
             <img
-              :src="`http://46.8.229.19/media/${item.product.image}`"
+              :src="`/media/${item.product.image}`"
               alt="Cart Item"
               class="h-20 w-20 rounded-md object-cover"
             />
