@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <!-- Заголовок отображается глобально через App.vue -->
     <div v-if="isLoading">Загрузка...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else class="mt-10">
@@ -9,7 +8,13 @@
         :categories="categories || []"
       />
       <div id="product-view">
-        <div class="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+        <div v-if="productsList.length === 0">
+          Нет товаров в данной категори
+        </div>
+        <div
+          v-if="productsList.length > 0"
+          class="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4"
+        >
           <div
             v-for="product in productsList"
             :key="product.id"
