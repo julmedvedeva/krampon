@@ -110,6 +110,6 @@ function handleSubmit() {
 
 <style scoped>
 .input {
-  @apply w-full rounded-md border border-gray-300 p-2 text-sm;
+  @apply w-full rounded border border-gray-300 p-2 text-sm;
 }
 </style>

@@ -20,18 +20,26 @@ export class ApiClient {
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${import.meta.env.VITE_API_BASE_TOKEN as string}`,
       },
 
       // Automatically attach auth token (if any) to every request
       onRequest({ options }) {
         const token = localStorage.getItem('auth_token');
-        if (token) {
-          options.headers = {
-            ...(options.headers as Record<string, string>),
-            Authorization: `Bearer ${token}`,
-          };
+        if (!token) return;
+
+        // Приводим заголовки к экземпляру Headers и добавляем токен
+        let headers: Headers;
+
+        if (!options.headers) {
+          headers = new Headers();
+        } else if (options.headers instanceof Headers) {
+          headers = options.headers;
+        } else {
+          headers = new Headers(options.headers as HeadersInit);
         }
+
+        headers.set('Authorization', `Bearer ${token}`);
+        options.headers = headers;
       },
 
       onRequestError({ error }) {
