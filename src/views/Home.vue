@@ -21,7 +21,7 @@
             class="product-card flex flex-col rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
           >
             <img
-              :src="`http://46.8.229.19/media/${product.image}`"
+              :src="`${base}/media/${product.image}`"
               alt="Product"
               class="mb-3 h-32 w-full rounded-lg bg-gray-100 object-cover"
             />
@@ -100,6 +100,7 @@ import { storeToRefs } from 'pinia';
 import CategoryFilters from '@/components/CategoryFilters.vue';
 import { type Product, useProductsStore } from '@/stores/product';
 import { useCategoryStore } from '@/stores/category.ts';
+import { base } from '@/config';
 
 const productStore = useProductsStore();
 const categoryStore = useCategoryStore();

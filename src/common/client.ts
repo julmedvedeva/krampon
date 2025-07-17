@@ -20,7 +20,18 @@ export class ApiClient {
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Token ${token}`,
+        // Authorization: `Bearer ${import.meta.env.VITE_API_BASE_TOKEN as string}`,
+      },
+
+      // Automatically attach auth token (if any) to every request
+      onRequest({ options }) {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+          options.headers = {
+            ...(options.headers as Record<string, string>),
+            Authorization: `Bearer ${token}`,
+          };
+        }
       },
 
       onRequestError({ error }) {
