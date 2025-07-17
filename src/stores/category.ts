@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 import { ApiClient } from '@/common/client';
+import { API_BASE_URL } from '@/config';
 interface Category {
   id: number;
   name: string;
@@ -12,7 +13,7 @@ export const useCategoryStore = defineStore('category', () => {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const apiClient = new ApiClient('http://46.8.229.19/api/v1');
+  const apiClient = new ApiClient(API_BASE_URL);
 
   async function fetchCategories() {
     try {

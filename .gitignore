@@ -29,3 +29,6 @@ coverage
 
 *.tsbuildinfo
 .eslintcache
+
+# Env files
+.env

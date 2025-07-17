@@ -21,7 +21,7 @@
             class="cart-item flex items-center gap-4 border-b border-gray-200 py-4 last:border-b-0"
           >
             <img
-              :src="`http://46.8.229.19/media/${item.product.image}`"
+              :src="`${base}/media/${item.product.image}`"
               alt="Cart Item"
               class="h-20 w-20 rounded-md object-cover"
             />
@@ -73,10 +73,21 @@
             Итого: <span id="cart-total">{{ cartTotal }} руб.</span>
           </p>
           <button
+            v-if="!showModal"
             id="checkout-button"
             class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            @click="openForm"
           >
             Оформить заказ
+          </button>
+          <button
+            v-else
+            id="confirm-order-button"
+            class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            @click="submitOrder"
+            :disabled="orderStore.isSubmitting"
+          >
+            {{ orderStore.isSubmitting ? 'Отправка...' : 'Подтвердить заказ' }}
           </button>
           <router-link
             to="/"
@@ -88,15 +99,39 @@
       </div>
     </div>
   </div>
+  <!-- Форма заказа -->
+  <OrderModal v-if="showModal" @close="closeModal" />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { base } from '@/config';
 import { useProductsStore, type Product } from '@/stores/product';
+import { useOrderStore } from '@/stores/order';
+import OrderModal from '@/components/OrderModal.vue';
 
 const productStore = useProductsStore();
 const { cartItems, cartCount } = storeToRefs(productStore);
+
+const orderStore = useOrderStore();
+const form = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  address: '',
+  notes: '',
+});
+
+const showModal = ref(false);
+
+function openForm() {
+  showModal.value = true;
+}
+function closeModal() {
+  showModal.value = false;
+}
 
 const cartTotal = computed(() => {
   return cartItems.value
@@ -112,6 +147,23 @@ const decreaseQuantity = (product: Product) =>
   productStore.decreaseQuantity(product);
 const removeFromCart = (productId: number) =>
   productStore.removeFromCart(productId);
+
+const submitOrder = () => {
+  const items = cartItems.value.map(item => ({
+    product_id: item.product.id,
+    price: item.product.price,
+    quantity: item.quantity,
+  }));
+  orderStore.createOrder({
+    customer_first_name: form.firstName,
+    customer_last_name: form.lastName,
+    customer_email: form.email,
+    customer_phone: form.phone,
+    shipping_address: form.address,
+    items,
+    notes: form.notes,
+  });
+};
 </script>
 
 <style scoped>

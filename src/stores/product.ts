@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { ApiClient } from '@/common/client';
+import { API_BASE_URL } from '@/config';
 
 interface Manufacturer {
   id: number;
@@ -65,7 +66,7 @@ export const useProductsStore = defineStore('product', () => {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const apiClient = new ApiClient('http://46.8.229.19/api/v1');
+  const apiClient = new ApiClient(API_BASE_URL);
 
   const cartCount = computed(() =>
     cartItems.value.reduce((sum, item) => sum + item.quantity, 0)
