@@ -23,7 +23,7 @@
             <img
               :src="`${base}/media/${item.product.image}`"
               alt="Cart Item"
-              class="h-20 w-20 rounded-md object-cover"
+              class="h-20 w-20 rounded-lg object-cover"
             />
             <div class="cart-item-details flex-grow">
               <h3 class="mb-1 text-base font-semibold text-gray-900">
@@ -35,7 +35,7 @@
             <div class="cart-item-quantity flex items-center gap-2">
               <button
                 @click="decreaseQuantity(item.product)"
-                class="h-8 w-8 rounded-full bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
               >
                 -
               </button>
@@ -44,7 +44,7 @@
               }}</span>
               <button
                 @click="increaseQuantity(item.product)"
-                class="h-8 w-8 rounded-full bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
               >
                 +
               </button>
@@ -57,7 +57,7 @@
             </p>
             <div class="cart-item-remove">
               <button
-                class="rounded-md bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
+                class="rounded-lg bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
                 @click="removeFromCart(item.product.id)"
               >
                 Удалить

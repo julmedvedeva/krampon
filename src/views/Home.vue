@@ -18,7 +18,7 @@
           <div
             v-for="product in productsList"
             :key="product.id"
-            class="product-card flex flex-col rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+            class="product-card flex flex-col rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
           >
             <img
               :src="`${base}/media/${product.image}`"
@@ -72,7 +72,7 @@
             <button
               v-if="pagination.previousPage !== null"
               @click="changePage(pagination.previousPage)"
-              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
+              class="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               Предыдущая
             </button>
@@ -83,7 +83,7 @@
             <button
               v-if="pagination.nextPage !== null"
               @click="changePage(pagination.nextPage)"
-              class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
+              class="rounded border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
               Следующая
             </button>
