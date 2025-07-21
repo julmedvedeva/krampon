@@ -19,8 +19,7 @@ const authStore = useAuthStore();
 authStore.loadToken();
 
 // Optionally trigger login if no token is stored. You can remove this line if you prefer manual login.
-if (!authStore.token) {
+if (!authStore.token || !authStore.isTokenValid()) {
   authStore.login().catch(err => console.error(err));
 }
-
 app.mount('#app');

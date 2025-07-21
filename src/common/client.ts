@@ -1,5 +1,5 @@
-// src/api/client.ts
 import { ofetch } from 'ofetch';
+import { useAuthStore } from '@/stores/auth';
 
 interface ApiResponse<T> {
   data: T;
@@ -23,8 +23,20 @@ export class ApiClient {
       },
 
       // Automatically attach auth token (if any) to every request
-      onRequest({ options }) {
-        const token = localStorage.getItem('auth_token');
+      async onRequest({ options }) {
+        const store = useAuthStore();
+
+        // Если токена нет или он недействителен — пытаемся авторизоваться заново
+        if (!store.isTokenValid()) {
+          try {
+            await store.login();
+          } catch (e) {
+            // не удалось получить новый токен – продолжаем без него
+            console.error('Re-auth failed', e);
+          }
+        }
+
+        const token = store.token as string | null;
         if (!token) return;
 
         // Приводим заголовки к экземпляру Headers и добавляем токен
