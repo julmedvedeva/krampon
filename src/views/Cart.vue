@@ -18,7 +18,7 @@
           <div
             v-for="item in cartItems"
             :key="item.product.id"
-            class="cart-item flex items-center gap-4 border-b border-gray-200 py-4 last:border-b-0"
+            class="cart-item flex flex-col gap-4 border-b border-gray-200 py-4 last:border-b-0 sm:flex-row sm:items-center"
           >
             <img
               :src="`${base}/media/${item.product.image}`"
@@ -32,7 +32,9 @@
               <p class="text-sm text-gray-600">{{ item.product.price }} руб.</p>
               <p class="text-xs text-gray-500">{{ item.product.unit }}</p>
             </div>
-            <div class="cart-item-quantity flex items-center gap-2">
+            <div
+              class="cart-item-quantity mt-2 flex items-center gap-2 sm:mt-0"
+            >
               <button
                 @click="decreaseQuantity(item.product)"
                 class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
@@ -50,12 +52,12 @@
               </button>
             </div>
             <p
-              class="cart-item-total text-right text-sm font-bold text-gray-800"
+              class="cart-item-total text-sm font-bold text-gray-800 sm:text-right"
             >
               {{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
               руб.
             </p>
-            <div class="cart-item-remove">
+            <div class="cart-item-remove mt-2 sm:mt-0">
               <button
                 class="rounded-lg bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
                 @click="removeFromCart(item.product.id)"
@@ -67,7 +69,7 @@
         </div>
         <div
           v-if="cartItems.length > 0"
-          class="cart-summary border-t-2 border-blue-600 pt-4 text-right"
+          class="cart-summary border-t-2 border-blue-600 pt-4 text-center sm:text-right"
         >
           <p class="mb-4 text-lg font-bold">
             Итого: <span id="cart-total">{{ cartTotal }} руб.</span>
@@ -75,7 +77,7 @@
           <button
             v-if="!showModal"
             id="checkout-button"
-            class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            class="mb-2 w-full rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 sm:mr-2 sm:mb-0 sm:w-auto"
             @click="openForm"
           >
             Оформить заказ
@@ -83,7 +85,7 @@
           <button
             v-else
             id="confirm-order-button"
-            class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            class="mb-2 w-full rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 sm:mr-2 sm:mb-0 sm:w-auto"
             @click="submitOrder"
             :disabled="orderStore.isSubmitting"
           >
@@ -91,7 +93,7 @@
           </button>
           <router-link
             to="/"
-            class="inline-block rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700"
+            class="inline-block w-full rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700 sm:w-auto"
           >
             Продолжить покупки
           </router-link>
