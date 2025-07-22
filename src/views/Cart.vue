@@ -165,6 +165,12 @@ const submitOrder = () => {
   });
 };
 
+/**
+ * Truncates a string to a specified length and appends ellipsis if the string exceeds the limit.
+ * @param {string} str - The string to be truncated.
+ * @param {number} [n=90] - The maximum length of the truncated string. Defaults to 90.
+ * @returns {string} - The truncated string, with ellipsis appended if truncation occurs.
+ */
 function truncate(str: string, n: number = 90) {
   if (str.length <= n) {
     return str;
