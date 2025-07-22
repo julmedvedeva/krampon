@@ -37,6 +37,7 @@ export class ApiClient {
         }
 
         const token = store.token as string | null;
+      
         if (!token) return;
 
         // Приводим заголовки к экземпляру Headers и добавляем токен
