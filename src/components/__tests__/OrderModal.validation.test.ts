@@ -1,5 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { isValidName, isValidPhone, isValidEmail } from '../common/validation';
+import {
+  isValidName,
+  isValidPhone,
+  isValidEmail,
+} from '../../common/validation';
 
 /**
  * Эти тесты проверяют корректность регулярных выражений,
