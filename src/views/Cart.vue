@@ -171,7 +171,9 @@ const submitOrder = () => {
  * @param {number} [n=90] - The maximum length of the truncated string. Defaults to 90.
  * @returns {string} - The truncated string, with ellipsis appended if truncation occurs.
  */
-function truncate(str: string, n: number = 90) {
+const TRUNCATION_LIMIT = 90;
+
+function truncate(str: string, n: number = TRUNCATION_LIMIT) {
   if (str.length <= n) {
     return str;
   }
