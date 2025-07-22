@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function isTokenValid(): boolean {
     if (!token.value || !expiresIn.value || !issuedAt.value) return false;
-    return Date.now() < issuedAt.value + expiresIn.value;
+    return Date.now() < issuedAt.value + expiresIn.value; // expiresIn is now in milliseconds
   }
 
   async function login() {
