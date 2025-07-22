@@ -14,7 +14,7 @@
       </div>
 
       <form @submit.prevent="handleSubmit" class="grid grid-cols-1 gap-4">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <input
             v-model="form.firstName"
             class="input"
@@ -110,6 +110,6 @@ function handleSubmit() {
 
 <style scoped>
 .input {
-  @apply w-full rounded border border-gray-300 p-2 text-sm;
+  @apply w-full max-w-[280px] rounded border border-gray-300 p-2 text-sm;
 }
 </style>

@@ -16,13 +16,7 @@ export default defineConfig({
     },
   },
   server: {
-    // Разрешаем хост Localtunnel
-    allowedHosts: [
-      'localhost',
-      'thirty-eagles-argue.loca.lt',
-      '*.loca.lt', // Для гибкости при смене URL Localtunnel
-    ],
-    // Настройка прокси для запросов к бэкенду
+    allowedHosts: ['localhost', 'ninety-doors-talk.loca.lt'],
     proxy: {
       '/api': {
         target: 'https://dev-krampon.ddns.net',

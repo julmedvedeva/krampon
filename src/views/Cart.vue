@@ -18,56 +18,56 @@
           <div
             v-for="item in cartItems"
             :key="item.product.id"
-            class="cart-item flex items-center gap-4 border-b border-gray-200 py-4 last:border-b-0"
+            class="cart-item flex gap-4 border-b border-gray-200 py-4 last:border-b-0"
           >
             <img
               :src="`${base}/media/${item.product.image}`"
               alt="Cart Item"
-              class="h-20 w-20 rounded-lg object-cover"
+              class="h-20 w-20 flex-shrink-0 rounded-lg object-cover"
             />
-            <div class="cart-item-details flex-grow">
-              <h3 class="mb-1 text-base font-semibold text-gray-900">
-                {{ item.product.name }}
+            <div class="flex flex-grow flex-col">
+              <!-- Название (truncate 90) -->
+              <h3 class="text-base font-semibold text-gray-900">
+                {{ truncate(item.product.name) }}
               </h3>
-              <p class="text-sm text-gray-600">{{ item.product.price }} руб.</p>
-              <p class="text-xs text-gray-500">{{ item.product.unit }}</p>
-            </div>
-            <div class="cart-item-quantity flex items-center gap-2">
-              <button
-                @click="decreaseQuantity(item.product)"
-                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
-              >
-                -
-              </button>
-              <span class="w-12 text-center font-semibold">{{
-                item.quantity
-              }}</span>
-              <button
-                @click="increaseQuantity(item.product)"
-                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
-              >
-                +
-              </button>
-            </div>
-            <p
-              class="cart-item-total text-right text-sm font-bold text-gray-800"
-            >
-              {{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
-              руб.
-            </p>
-            <div class="cart-item-remove">
-              <button
-                class="rounded-lg bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
-                @click="removeFromCart(item.product.id)"
-              >
-                Удалить
-              </button>
+              <!-- Цена -->
+              <p class="mb-2 text-sm text-gray-600">
+                {{ item.product.price }} руб.
+              </p>
+
+              <!-- Удалить и количество -->
+              <div class="flex items-center justify-end gap-4">
+                <button
+                  @click="removeFromCart(item.product.id)"
+                  class="text-2xl leading-none text-red-600 transition-colors hover:text-red-800"
+                >
+                  ✕
+                </button>
+
+                <div class="flex items-center gap-2">
+                  <button
+                    @click="decreaseQuantity(item.product)"
+                    class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                  >
+                    -
+                  </button>
+                  <span class="w-10 text-center font-semibold">{{
+                    item.quantity
+                  }}</span>
+                  <button
+                    @click="increaseQuantity(item.product)"
+                    class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div
           v-if="cartItems.length > 0"
-          class="cart-summary border-t-2 border-blue-600 pt-4 text-right"
+          class="cart-summary border-t-2 border-blue-600 pt-4 text-center sm:text-right"
         >
           <p class="mb-4 text-lg font-bold">
             Итого: <span id="cart-total">{{ cartTotal }} руб.</span>
@@ -75,7 +75,7 @@
           <button
             v-if="!showModal"
             id="checkout-button"
-            class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            class="mb-2 w-full rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 sm:mr-2 sm:mb-0 sm:w-auto"
             @click="openForm"
           >
             Оформить заказ
@@ -83,7 +83,7 @@
           <button
             v-else
             id="confirm-order-button"
-            class="mr-2 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700"
+            class="mb-2 w-full rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 sm:mr-2 sm:mb-0 sm:w-auto"
             @click="submitOrder"
             :disabled="orderStore.isSubmitting"
           >
@@ -91,7 +91,7 @@
           </button>
           <router-link
             to="/"
-            class="inline-block rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700"
+            class="inline-block w-full rounded-lg bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700 sm:w-auto"
           >
             Продолжить покупки
           </router-link>
@@ -164,6 +164,21 @@ const submitOrder = () => {
     notes: form.notes,
   });
 };
+
+/**
+ * Truncates a string to a specified length and appends ellipsis if the string exceeds the limit.
+ * @param {string} str - The string to be truncated.
+ * @param {number} [n=90] - The maximum length of the truncated string. Defaults to 90.
+ * @returns {string} - The truncated string, with ellipsis appended if truncation occurs.
+ */
+const TRUNCATION_LIMIT = 90;
+
+function truncate(str: string, n: number = TRUNCATION_LIMIT) {
+  if (str.length <= n) {
+    return str;
+  }
+  return str.slice(0, n) + '...';
+}
 </script>
 
 <style scoped>
