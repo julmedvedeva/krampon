@@ -14,6 +14,6 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node", "vite-plugin-eslint2"] // Добавляем типы для vite-plugin-eslint
+    "types": ["node", "vite-plugin-eslint2", "vitest"]
   }
 }
