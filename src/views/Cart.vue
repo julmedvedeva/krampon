@@ -18,52 +18,50 @@
           <div
             v-for="item in cartItems"
             :key="item.product.id"
-            class="cart-item flex flex-col gap-4 border-b border-gray-200 py-4 last:border-b-0 sm:flex-row sm:items-center"
+            class="cart-item flex gap-4 border-b border-gray-200 py-4 last:border-b-0"
           >
             <img
               :src="`${base}/media/${item.product.image}`"
               alt="Cart Item"
-              class="h-20 w-20 rounded-lg object-cover"
+              class="h-20 w-20 flex-shrink-0 rounded-lg object-cover"
             />
-            <div class="cart-item-details flex-grow">
-              <h3 class="mb-1 text-base font-semibold text-gray-900">
-                {{ item.product.name }}
+            <div class="flex flex-grow flex-col">
+              <!-- Название (truncate 90) -->
+              <h3 class="text-base font-semibold text-gray-900">
+                {{ truncate(item.product.name) }}
               </h3>
-              <p class="text-sm text-gray-600">{{ item.product.price }} руб.</p>
-              <p class="text-xs text-gray-500">{{ item.product.unit }}</p>
-            </div>
-            <div
-              class="cart-item-quantity mt-2 flex items-center gap-2 sm:mt-0"
-            >
-              <button
-                @click="decreaseQuantity(item.product)"
-                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
-              >
-                -
-              </button>
-              <span class="w-12 text-center font-semibold">{{
-                item.quantity
-              }}</span>
-              <button
-                @click="increaseQuantity(item.product)"
-                class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
-              >
-                +
-              </button>
-            </div>
-            <p
-              class="cart-item-total text-sm font-bold text-gray-800 sm:text-right"
-            >
-              {{ (parseFloat(item.product.price) * item.quantity).toFixed(2) }}
-              руб.
-            </p>
-            <div class="cart-item-remove mt-2 sm:mt-0">
-              <button
-                class="rounded-lg bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
-                @click="removeFromCart(item.product.id)"
-              >
-                Удалить
-              </button>
+              <!-- Цена -->
+              <p class="mb-2 text-sm text-gray-600">
+                {{ item.product.price }} руб.
+              </p>
+
+              <!-- Удалить и количество -->
+              <div class="flex items-center justify-end gap-4">
+                <button
+                  @click="removeFromCart(item.product.id)"
+                  class="text-2xl leading-none text-red-600 transition-colors hover:text-red-800"
+                >
+                  ✕
+                </button>
+
+                <div class="flex items-center gap-2">
+                  <button
+                    @click="decreaseQuantity(item.product)"
+                    class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                  >
+                    -
+                  </button>
+                  <span class="w-10 text-center font-semibold">{{
+                    item.quantity
+                  }}</span>
+                  <button
+                    @click="increaseQuantity(item.product)"
+                    class="h-8 w-8 rounded-lg bg-blue-600 text-white transition-colors hover:bg-blue-700"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -166,6 +164,13 @@ const submitOrder = () => {
     notes: form.notes,
   });
 };
+
+function truncate(str: string, n: number = 90) {
+  if (str.length <= n) {
+    return str;
+  }
+  return str.slice(0, n) + '...';
+}
 </script>
 
 <style scoped>
