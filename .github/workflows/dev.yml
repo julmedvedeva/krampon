@@ -75,8 +75,8 @@ jobs:
           Описание:
           ${{ github.event.head_commit.message }}
 
-          Swagger: http://46.8.229.19/api/schema/swagger-ui/
+            Swagger: https://dev-krampon.ddns.net/api/schema/swagger-ui/
 
-          Админка: http://46.8.229.19/admin/
+            Админка: https://dev-krampon.ddns.net/admin/
 
-          Клиент: http://46.8.229.19/
+            Клиент: https://dev-krampon.ddns.net/

@@ -20,12 +20,16 @@
             class="input"
             placeholder="Имя"
             required
+            pattern="^[A-Za-zА-Яа-яЁё0-9-]+$"
+            title="Допустимы буквы, цифры и символ '-'"
           />
           <input
             v-model="form.lastName"
             class="input"
             placeholder="Фамилия"
             required
+            pattern="^[A-Za-zА-Яа-яЁё0-9-]+$"
+            title="Допустимы буквы, цифры и символ '-'"
           />
         </div>
         <input
@@ -34,12 +38,17 @@
           placeholder="Email"
           type="email"
           required
+          pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+          title="Введите корректный e-mail в формате name@domain"
         />
         <input
           v-model="form.phone"
           class="input"
           placeholder="Телефон"
+          type="tel"
           required
+          pattern="^\+7\d{10}$"
+          title="Введите номер телефона в формате +7XXXXXXXXXX"
         />
         <input
           v-model="form.address"
