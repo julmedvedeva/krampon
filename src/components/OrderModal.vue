@@ -22,6 +22,7 @@
             required
             pattern="^[A-Za-zА-Яа-яЁё0-9-]+$"
             title="Допустимы буквы, цифры и символ '-'"
+            :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
           />
           <input
             v-model="form.lastName"
@@ -30,6 +31,7 @@
             required
             pattern="^[A-Za-zА-Яа-яЁё0-9-]+$"
             title="Допустимы буквы, цифры и символ '-'"
+            :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
           />
         </div>
         <input
@@ -40,6 +42,7 @@
           required
           pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
           title="Введите корректный e-mail в формате name@domain"
+          :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
         />
         <input
           v-model="form.phone"
@@ -49,23 +52,26 @@
           required
           pattern="^\+7\d{10}$"
           title="Введите номер телефона в формате +7XXXXXXXXXX"
+          :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
         />
         <input
           v-model="form.address"
           class="input"
           placeholder="Адрес доставки"
           required
+          :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
         />
         <textarea
           v-model="form.notes"
           class="input"
           placeholder="Комментарий"
+          :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
         ></textarea>
 
         <button
           type="submit"
           class="mt-2 rounded-lg bg-green-600 py-2 text-white transition-colors hover:bg-green-700"
-          :disabled="orderStore.isSubmitting"
+          :disabled="orderStore.isSubmitting || !!orderStore.successMessage"
         >
           {{ orderStore.isSubmitting ? 'Отправка...' : 'Подтвердить заказ' }}
         </button>
@@ -81,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch, defineEmits } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useOrderStore } from '@/stores/order';
 import { useProductsStore } from '@/stores/product';
@@ -98,6 +104,24 @@ const form = reactive({
   address: '',
   notes: '',
 });
+
+const emit = defineEmits(['close']);
+
+watch(
+  () => orderStore.successMessage,
+  val => {
+    if (val) {
+      // Закрываем модальное окно по успешному созданию заказа
+      emit('close');
+      // Попытка закрыть вкладку (сработает, если окно открыто скриптом)
+      try {
+        window.close();
+      } catch (_) {
+        // В большинстве случаев браузер заблокирует, можем игнорировать
+      }
+    }
+  }
+);
 
 function handleSubmit() {
   const items = storeCartItems.value.map(item => ({

@@ -21,9 +21,14 @@
             class="product-card flex flex-col rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
           >
             <img
-              :src="`${base}/media/${product.image}`"
+              :src="
+                product.image
+                  ? `${base}/media/${product.image}`
+                  : PLACEHOLDER_IMG
+              "
               alt="Product"
               class="mb-3 h-32 w-full rounded-lg bg-gray-100 object-cover"
+              @error="onImgError"
             />
             <h2 class="mb-1 text-base font-semibold text-gray-900">
               {{ product.name }}
@@ -95,20 +100,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, inject } from 'vue';
 import { storeToRefs } from 'pinia';
-import CategoryFilters from '@/components/CategoryFilters.vue';
 import { type Product, useProductsStore } from '@/stores/product';
 import { useCategoryStore } from '@/stores/category.ts';
-import { base } from '@/config';
+import { base, PLACEHOLDER_IMG } from '@/config';
+import type { Ref } from 'vue';
+const activeCategory = inject<Ref<number>>('activeCategory')!;
+const currentPage = ref<number>(1);
 
 const productStore = useProductsStore();
 const categoryStore = useCategoryStore();
 const { productsList, pagination, cartCount, isLoading, error } =
   storeToRefs(productStore);
 const { categories } = storeToRefs(categoryStore);
-const activeCategory = ref<string>('Все');
-const currentPage = ref<number>(1);
 
 // Cart helper functions
 const isProductInCart = (productId: number) =>
@@ -121,19 +126,33 @@ const increaseQuantity = (product: Product) =>
 const decreaseQuantity = (product: Product) =>
   productStore.decreaseQuantity(product);
 
+// fallback image handler
+function onImgError(event: Event) {
+  (event.target as HTMLImageElement).src = PLACEHOLDER_IMG;
+}
+
 onMounted(() => {
   categoryStore.fetchCategories();
-  productStore.fetchProducts(activeCategory.value, currentPage.value);
+  productStore.fetchProducts(
+    activeCategory.value === 0 ? null : String(activeCategory.value),
+    currentPage.value
+  );
 });
 
-watch(activeCategory, newCategory => {
+watch(activeCategory, (newCategory: number) => {
   currentPage.value = 1;
-  productStore.fetchProducts(newCategory, currentPage.value);
+  productStore.fetchProducts(
+    newCategory === 0 ? null : String(newCategory),
+    currentPage.value
+  );
 });
 
 function changePage(page: number) {
   currentPage.value = page;
-  productStore.fetchProducts(activeCategory.value, page);
+  productStore.fetchProducts(
+    activeCategory.value === 0 ? null : String(activeCategory.value),
+    page
+  );
 }
 </script>
 

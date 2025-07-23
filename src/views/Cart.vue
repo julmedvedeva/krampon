@@ -21,9 +21,14 @@
             class="cart-item flex gap-4 border-b border-gray-200 py-4 last:border-b-0"
           >
             <img
-              :src="`${base}/media/${item.product.image}`"
+              :src="
+                item.product.image
+                  ? `${base}/media/${item.product.image}`
+                  : PLACEHOLDER_IMG
+              "
               alt="Cart Item"
               class="h-20 w-20 flex-shrink-0 rounded-lg object-cover"
+              @error="onImgError"
             />
             <div class="flex flex-grow flex-col">
               <!-- Название (truncate 90) -->
@@ -106,7 +111,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { base } from '@/config';
+import { base, PLACEHOLDER_IMG } from '@/config';
 import { useProductsStore, type Product } from '@/stores/product';
 import { useOrderStore } from '@/stores/order';
 import OrderModal from '@/components/OrderModal.vue';
@@ -164,6 +169,11 @@ const submitOrder = () => {
     notes: form.notes,
   });
 };
+
+// fallback image handler
+function onImgError(event: Event) {
+  (event.target as HTMLImageElement).src = PLACEHOLDER_IMG;
+}
 
 /**
  * Truncates a string to a specified length and appends ellipsis if the string exceeds the limit.
