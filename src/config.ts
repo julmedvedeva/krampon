@@ -7,3 +7,7 @@ export const base = import.meta.env.DEV
   : '';
 
 export const API_BASE_URL = `${base}${API_PREFIX}`;
+
+import placeholderImg from '@/assets/no-image.svg';
+
+export const PLACEHOLDER_IMG = placeholderImg;
