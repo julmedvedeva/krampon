@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 import { ApiClient } from '@/common/client';
 import { API_BASE_URL } from '@/config';
-interface Category {
+export interface Category {
   id: number;
   name: string;
   slug: string;

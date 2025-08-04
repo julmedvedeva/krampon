@@ -1,13 +1,13 @@
 <template>
   <div
-    class="sticky top-16 z-40 mb-6 flex flex-wrap justify-center gap-2 overflow-x-auto bg-white pb-2 md:justify-start"
+    class="sticky top-16 z-40 mb-6 flex flex-nowrap gap-2 overflow-x-auto bg-white px-4 py-2"
   >
     <button
       v-for="category in categoriesWithAll"
       :key="category.slug"
       :class="[
         'category-filter-btn',
-        'rounded-full border border-blue-600 px-4 py-2 text-sm font-medium text-blue-600 transition-all hover:bg-blue-100 hover:shadow-sm',
+        'rounded-full border border-blue-600 px-4 py-2 text-sm font-medium whitespace-nowrap text-blue-600 transition-all hover:bg-blue-100 hover:shadow-sm',
         {
           'bg-blue-600 font-bold text-white shadow-md':
             activeCategory === category.id,

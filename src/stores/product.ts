@@ -29,12 +29,12 @@ export interface Product {
   is_active: boolean;
 }
 
-interface CartItem {
+export interface CartItem {
   product: Product;
   quantity: number;
 }
 
-interface Pagination {
+export interface Pagination {
   currentPage: number;
   previousPage: number | null;
   totalPages: number;
