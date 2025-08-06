@@ -1,3 +1,11 @@
 export { default as Header } from './Header.vue';
 export { default as Button } from './Button.vue';
 export { default as CategoryFilters } from './CategoryFilters.vue';
+export { default as Loader } from './Loader.vue';
+export { default as Pagination } from './Pagination.vue';
+export { default as ProductCard } from './ProductCard.vue';
+export { default as ProductGrid } from './ProductGrid.vue';
+export { default as EmptyCart } from './EmptyCart.vue';
+export { default as CartItems } from './CartItems.vue';
+export { default as CartSummary } from './CartSummary.vue';
+export { default as OrderModal } from './OrderModal.vue';

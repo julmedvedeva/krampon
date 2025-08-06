@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['localhost', 'ninety-doors-talk.loca.lt'],
+    allowedHosts: ['localhost'],
     proxy: {
       '/api': {
         target: 'https://dev-krampon.ddns.net',
